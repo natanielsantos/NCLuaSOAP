@@ -31,12 +31,149 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <p>Módulo NCLua que implementa o protocolo SOAP 1.1/1.2 para uso em aplicações interativas do Sistema Brasileiro de TV Digital (SBTVD/ISDB-TB)</p>
+        <h2>
+<a id="introdução" class="anchor" href="#introdu%C3%A7%C3%A3o" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introdução</h2>
 
-<p><a href="http://ncluasoap.manoelcampos.com">http://ncluasoap.manoelcampos.com</a></p>
+<p><a href="media/logotipo-NCLuaSOAP-pequeno.png"><img src="media/logotipo-NCLuaSOAP-pequeno.png" alt=""></a>O NCLua SOAP é um módulo escrito totalmente em Lua, que permite o acesso a Web Services SOAP a partir de aplicações de TV Digital. O módulo está em fase beta e implementa as versões 1.1 e 1.2 do protocolo SOAP.</p>
 
-<p>Artigo publicado no Workshop de Computação Aplicada em Governo Eletrônico (WCGE 2011)
-<a href="https://www4.serpro.gov.br/wcge2011/artigos-selecionados">https://www4.serpro.gov.br/wcge2011/artigos-selecionados</a></p>
+<p>O projeto facilita a convergência entre Web e TV, permitindo o consumo de diferentes serviços, construídos em diferentes linguagens.</p>
+
+<h2>
+<a id="justificativa" class="anchor" href="#justificativa" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Justificativa</h2>
+
+<p>Consumir Web Service SOAP a partir de uma aplicação NCL/Lua para TV Digital tem sido um desejo de muitos, como tenho acompanhado nos fóruns que participo. Os Web Services são bastante utilizados para integração de aplicações, heterogêneas ou não, pois utilizam um protocolo padronizado pela W3C, baseado em XML e trafegando normalmente por HTTP, sem sofrer problemas com firewalls (pelo bloqueio de portas). Eles permitem a criação de aplicações distribuídas, retirando das aplicações clientes, parte da carga de processamento.</p>
+
+<p>Na área de aplicações de TV Digital, os Web Services permitem ainda, a integração de tais aplicações com serviços já implementados, sem necessidade de retrabalho, viabilizando uma maior convergênica entre TV Digital e Web. Existe um projeto chamado <a href="http://www.keplerproject.org/luasoap/">LuaSoap</a> com objetivo semelhante, porém, o mesmo depende de bibliotecas escritas em C/C++, e utiliza, de forma direta, as funções da <a href="http://luasocket.luaforge.net">LuaSocket</a>, também escrita em C.</p>
+
+<p>Como estas bibliotecas não fazem parte das normas do Sistema Brasileiro de TV Digital (SBTVD) e por serem bibliotecas compiladas, não se pode chamar suas funções diretamente a partir de uma aplicação interativa. Por questões de segurança, não é previsto o uso de bibliotecas em código nativo (como uma compilada em C) enviadas por broadcast. Além disto, tal biblioteca pode não funcionar em todos os receptores de TV Digital compatíveis com o Ginga, o middleware do SBTVD, devido diferenças de arquitetura de hardware e sistema operacional.</p>
+
+<p>Sabe-se que ao menos na versão 0.11.2 da implementação de referência do Ginga, disponível no Portal do Software Público, está sendo utilizada a biblioteca LuaSocket para implementar o módulo tcp, (definido em norma ABNT) para aplicações NCLua. No entanto, esta biblioteca é apenas usada como camada subjacente ao módulo tcp, sendo que suas funções não devem ser utilizadas pelas aplicações desenvolvidas. Deve-se considerar apenas a interface disponibilizada pelo módulo tcp (prevista em norma e existente em qualquer receptor). Com isto, devido ao meu trabalho de mestrado e necessidade de tal recurso, desenvolvi o NCLua SOAP, um módulo escrito completamente em Lua, para ser utilizado em aplicações NCLua para TV Digital.</p>
+
+<h2>
+<a id="outros-módulos-utilizados-já-inclusos-no-projeto" class="anchor" href="#outros-m%C3%B3dulos-utilizados-j%C3%A1-inclusos-no-projeto" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Outros módulos utilizados (já inclusos no projeto)</h2>
+
+<p>O módulo utiliza a biblioteca <a href="https://github.com/manoelcampos/LuaXML">LuaXML</a> (que foi adaptada para Lua 5) e o módulo <a href="https://github.com/manoelcampos/NCLuaHTTP">NCLua HTTP</a> desenvolvido por mim. </p>
+
+<h2>
+<a id="pré-requisitos" class="anchor" href="#pr%C3%A9-requisitos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pré-Requisitos</h2>
+
+<p>É recomendado a utilização do <a href="http://www.softwarepublico.gov.br/ver-comunidade?community_id=1101545">Ginga Virtual STB 0.11.2 rev 23 ou superior</a>. A versão anterior do Ginga VSTB possuia algumas dificuldades para acesso à rede a partir da VM, normalmente necessitando de configurações na interface de rede da mesma. Antes de usar o NCLua SOAP na VM, verifique se ela está acessando a rede local/internet (usando ping, telnet, wget, curl ou qualquer comando similar). Para isto, fundamentalmente, na tela inicial da VM deve ser exibido o IP da mesma. Caso não esteja conseguindo acesso à rede, tente alterar o modo da interface de rede da VM de bridge para NAT ou vice-versa (é necessário reiniciar a VM após tal alteração).</p>
+
+<h2>
+<a id="artigo-publicado" class="anchor" href="#artigo-publicado" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Artigo Publicado</h2>
+
+<p>O Artigo NCLua SOAP: Acesso à Web Services em Aplicações de TVDi foi publicado no Workshop de Computação Aplicada em Governo Eletrônico (WCGE 2011), <a href="https://www4.serpro.gov.br/wcge2011/artigos-selecionados">disponível aqui</a>. Caso o link esteja quebrado, o artigo também está disponível <a href="artigos-tutoriais/Artigo-NCLua%20SOAP%20-%20Acesso%20a%20Web%20Services%20em%20aplicacoes%20de%20TVDi,%202011.pdf">aqui</a>. Para trabalhos acadêmicos e projetos que utilizem o NCLua SOAP, favor referenciar o artigo publicado. Para referenciar o artigo em documentos Latex, utilize o código bibtex <a href="artigos-tutoriais/ncluasoap.bib">deste link</a>.</p>
+
+<h2>
+<a id="documentação" class="anchor" href="#documenta%C3%A7%C3%A3o" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentação</h2>
+
+<p>A documentação da biblioteca foi gerada com LuaDoc e está <a href="http://manoelcampos.github.io/NCLuaSOAP/docs">disponível para consulta online aqui</a>.</p>
+
+<h2>
+<a id="utilizando-o-nclua-soap" class="anchor" href="#utilizando-o-nclua-soap" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Utilizando o NCLua SOAP</h2>
+
+<p>Para usar o NCLua SOAP, basta adicionar as linhas abaixo ao seu script lua:</p>
+
+<div class="highlight highlight-source-lua"><pre><span class="pl-c">--Adiciona o diretório lib (onde estão os arquivos do NCLua SOAP) ao path de bibliotecas,</span>
+<span class="pl-c">--para que a aplicação encontre os módulos disponibilizados</span>
+package.<span class="pl-smi">path</span> <span class="pl-k">=</span> package.<span class="pl-smi">path</span> <span class="pl-k">..</span> <span class="pl-s"><span class="pl-pds">'</span>;lib/?.lua<span class="pl-pds">'</span></span>
+<span class="pl-c1">require</span> <span class="pl-s"><span class="pl-pds">"</span>ncluasoap<span class="pl-pds">"</span></span></pre></div>
+
+<p>A função principal do módulo é a call (ncluasoap.call), que gera e envia um requisição SOAP e obtém o XML de retorno, que é convertido para uma tabela lua (com o módulo LuaXML) para facilitar o acesso aos dados de retorno da chamada do método remoto. O principal parâmetro da função ncluasoap.call é o msgTable, que deve ser uma tabela lua contendo os dados para acesso ao método no Web Service. Na documentação e nos exemplos, é explicado com mais detalhes como isso funciona.Veja a seguir a estrutura que deve ter esse parâmetro:</p>
+
+<div class="highlight highlight-source-lua"><pre>msgTable <span class="pl-k">=</span> {
+  address <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>url do serviço (não é o endereço do wsdl)<span class="pl-pds">"</span></span>,
+  namespace <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>namespace, exatamente como informado no wsdl<span class="pl-pds">"</span></span>,
+  operationName <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>método remoto que deseja-se acessar<span class="pl-pds">"</span></span>,
+
+  <span class="pl-c">--Parâmetros de entrada, como definidos no WSDL</span>
+  params <span class="pl-k">=</span> {
+      paramName1<span class="pl-k">=</span>value1,
+      paramName2<span class="pl-k">=</span>value2,
+      paramNameN<span class="pl-k">=</span>valueN
+  }
+}</pre></div>
+
+<p>A função call ainda aceita uma função de callback, que é explicada em mais detalhes na documentação do NCLua SOAP e principalmente no módulo http (motivo da necessidade de uso de tais funções).</p>
+
+<h2>
+<a id="exemplos" class="anchor" href="#exemplos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Exemplos</h2>
+
+<p>Foram disponibilizadas algumas aplicações de exemplo, que consomem Web Services variados. Para testar os diversos Web Services usados na segunda aplicação de exemplo, basta descomentar uma chamada a ncluasoap.call, dentro da função handler do arquivo exemplo2.lua, comentando o anterior (por motivos de clareza). As aplicações não possuem interface gráfica, logo, todo o resultado é mostrado em mensagens no console. Leia os comentários existentes nos exemplos, pois alguns serviços requerem configurações extras para funcionar (como cadastro/login e senha). Um exemplo completo, mostrando como consumir um Web Service de cotação de moedas, é exibido abaixo.</p>
+
+<div class="highlight highlight-source-lua"><pre><span class="pl-c">---Exemplo simples, mas completo, de uso do NCLua SOAP</span>
+package.<span class="pl-smi">path</span> <span class="pl-k">=</span> package.<span class="pl-smi">path</span> <span class="pl-k">..</span> <span class="pl-s"><span class="pl-pds">'</span>;lib/?.lua<span class="pl-pds">'</span></span>
+<span class="pl-c1">require</span> <span class="pl-s"><span class="pl-pds">"</span>ncluasoap<span class="pl-pds">"</span></span>
+<span class="pl-c">---Função para processar a resposta da requisição SOAP enviada ao WS</span>
+<span class="pl-c">--@param result Resposta da chamada do método remoto, neste caso, uma string.</span>
+<span class="pl-c">--Dependendo do método remoto chamado, o result pode ser de um tipo estruturado,</span>
+<span class="pl-c">--como um vetor ou struct</span>
+<span class="pl-k">local</span> <span class="pl-k">function</span> <span class="pl-en">getResponse</span>(<span class="pl-smi">resul</span>)
+  <span class="pl-c">--O nome do elemento que contém o retorno é obtido no WSDL ou no XML de retorno</span>
+  <span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>Cotação do Dolar em Reais:<span class="pl-pds">"</span></span>, result)
+<span class="pl-k">end</span>
+
+<span class="pl-c">--Cria uma table contendo os dados para envio da requisição SOAP ao WS</span>
+<span class="pl-k">local</span> msgTable <span class="pl-k">=</span> {
+  address <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>http://www.webservicex.net/CurrencyConvertor.asmx<span class="pl-pds">"</span></span>,
+  <span class="pl-c">--Namespace exatamente como especificado no WSDL, neste caso, terminando com /</span>
+  namespace <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>http://www.webserviceX.NET/<span class="pl-pds">"</span></span>,
+  operationName <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>ConversionRate<span class="pl-pds">"</span></span>,
+  params <span class="pl-k">=</span> {
+    FromCurrency <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>USD<span class="pl-pds">"</span></span>, <span class="pl-c">--Dólar</span>
+    ToCurrency <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>BRL<span class="pl-pds">"</span></span> <span class="pl-c">--Real</span>
+  }
+}
+
+<span class="pl-c">--Executa o método remoto, definido dentro da msgTable,</span>
+<span class="pl-c">--gerando uma requisição SOAP, enviando ao WS e obtendo o resultado.</span>
+<span class="pl-c">--getResponse é uma função de callback que será executada</span>
+<span class="pl-c">--automaticamente, assim que a resposta da chamada remota for obtida.</span>
+ncluasoap.<span class="pl-c1">call</span>(msgTable, getResponse)
+
+<span class="pl-c">--Esta linha é executada automaticamente após a chamada de ncluasoap.call</span>
+<span class="pl-c">--A chamada a ncluasoap.call retorna imediatamente, pois é uma chamada</span>
+<span class="pl-c">--assíncrona, devido a particularidades do módulo TCP de NCLua.</span>
+<span class="pl-c">--Assim, NÃO é possível obter o retorna do método remoto</span>
+<span class="pl-c">--fazendo algo como retorno = ncluasoap.call(msgTable).</span>
+<span class="pl-c">--Tal instrução não funciona.</span>
+<span class="pl-c1">print</span>(<span class="pl-s"><span class="pl-pds">"</span>---------------------------Chamou ncluasoap.call<span class="pl-pds">"</span></span>)</pre></div>
+
+<p>Após a chamada da função ncluasoap.call, quando o método remoto retornar um resultado, a função getResponse será automaticamente chamada, recebendo a resposta do método remoto como parâmetro. Observe que dentro da função <em>getResponse</em>, o valor retornado pelo WS é obtido por meio do acesso ao parâmetro <em>result</em>.</p>
+
+<p>A chamada a ncluasoap.call possui ainda um terceiro parâmetro opcional, que indica a versão do protocolo SOAP que deve ser utilizada na comunicação com o WS. Se omitido, é assumido o valor "1.2". Alguns Web Services suportam tanto a versão 1.1 como 1.2 do SOAP (como os Web Services ASP.NET, as páginas asmx). Outros suportam apenas a 1.1 (como alguns Web Services em PHP), e podem haver outros que só suportem a versão 1.2. Assim, o desenvolvedor precisa atentar à versão do SOAP suportada pelo WS, informação que normalmente pode ser encontrada na página do Web Service (a mesma página informada na tabela passada à função call do módulo ncluasoap).</p>
+
+<p><strong>OBSERVAÇÃO</strong>: O <em>namespace</em> deve ser exatamente como definido no documento WSDL. Se o mesmo terminar com barra, deve ser incluída a barra. Se não terminar, não deve-se incluir. Alguns serviços podem não funcionar (exibindo uma mensagem de erro indicando o correto namespace a ser utilizado) caso não esteja exatamente como apresentado no WSDL.</p>
+
+<h2>
+<a id="tutoriais" class="anchor" href="#tutoriais" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tutoriais</h2>
+
+<p><a href="http://www.ufjf.br/lapic/files/2010/05/TutorialNuSoapNCLuaSoap.pdf">Criando um Web Service PHP com NuSoap e acessando-o com NCLua Soap - por Johnny Moreira Gomes (UFJF)</a>. Caso o link esteja quebrado, o tutorial pode ser acessado <a href="artigos-tutoriais/tutorial-nusoap-ncluasoap.pdf">aqui</a>.</p>
+
+<h2>
+<a id="faq" class="anchor" href="#faq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>FAQ</h2>
+
+<ol>
+<li>
+<strong>Porque ocorre o erro "HTTP 415: Media Unsupported"?</strong> Este erro pode ocorrer devido à versão da requisição SOAP enviada não ser suportada pelo Web Service. Verifique a documentação da função call do módulo NCLua SOAP para saber como especificar a versão do SOAP a ser utilizada pelo módulo. Se não souber qual versão do protocolo SOAP o Web Service reconhece, teste os valores listados na documentação da função call do módulo. </li>
+<li>
+<strong>Porque ocorre o erro "unprotected error in call to Lua API (tcp.lua:xx: /usr/local/lib/lua/5.1/tcp_event.lua:xx: assertion failed!)"?</strong> Este erro pode ocorrer devido a aplicação, rodando no Ginga Virtual STB, não ter acesso à Internet/LAN. Tal problema era comum na versão anterior a 0.11.2 do Ginga Virtual STB. Verifique a seção de pré-requisitos para mais informações.</li>
+</ol>
+
+<h2>
+<a id="fórum-de-discussão" class="anchor" href="#f%C3%B3rum-de-discuss%C3%A3o" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Fórum de Discussão</h2>
+
+<p>Para tirar dúvidas, relatar bugs, propor melhorias e quaisquer outros assuntos relacionados a Web Services em aplicações NCLua para TV Digital, acesse o <a href="http://groups.google.com/group/ncluasoap">Fórum NCLua SOAP no Google Groups</a>.</p>
+
+<h2>
+<a id="aviso" class="anchor" href="#aviso" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Aviso</h2>
+
+<p>O módulo implementa as versões 1.1 e 1.2 do protocolo SOAP, e está em fase beta, podendo conter bugs e inconsistências com o padrão. Assim, use por sua conta e risco! Dúvidas, críticas, sugestões e, principalmente, relatos de problemas com algum WebService, são bem vindos e devem ser enviados pelo Fórum mostrado acima.</p>
+
+<h2>
+<a id="licença" class="anchor" href="#licen%C3%A7a" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Licença</h2>
+
+<p>O projeto é licenciado sob a <a href="http://creativecommons.org/licenses/by-nc-sa/2.5/br/">Creative Commons Atribuição-NãoComercial-CompartilhaIgual 2.5 Brasil (CC BY-NC-SA 2.5 BR)</a></p>
       </section>
     </div>
 
