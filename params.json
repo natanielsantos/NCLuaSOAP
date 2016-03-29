@@ -1,0 +1,6 @@
+{
+  "name": "Ncluasoap",
+  "tagline": "Módulo NCLua que implementa o protocolo SOAP 1.1/1.2 para uso em aplicações interativas do Sistema Brasileiro de TV Digital (SBTVD/ISDB-TB)",
+  "body": "Módulo NCLua que implementa o protocolo SOAP 1.1/1.2 para uso em aplicações interativas do Sistema Brasileiro de TV Digital (SBTVD/ISDB-TB)\r\n\r\nhttp://ncluasoap.manoelcampos.com\r\n\r\nArtigo publicado no Workshop de Computação Aplicada em Governo Eletrônico (WCGE 2011)\r\nhttps://www4.serpro.gov.br/wcge2011/artigos-selecionados\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
